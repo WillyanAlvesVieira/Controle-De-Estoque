@@ -13,9 +13,4 @@
     </Content>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Views\Cadastro\" />
-    <Folder Include="Views\Operacoes\" />
-  </ItemGroup>
-
 </Project>

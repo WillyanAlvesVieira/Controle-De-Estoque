@@ -4,7 +4,7 @@ namespace ControleDeEstoque.Controllers
 {
     public class CadastroController : Controller
     {
-        public IActionResult GrupoProduto() {  return View(); }
+        public IActionResult GrupoProdutos() {  return View(); }
         public IActionResult MarcaProdutos() { return View(); }
         public IActionResult LocaisArmazenamento() { return View(); }
         public IActionResult UnidadesMedida() { return View(); }
