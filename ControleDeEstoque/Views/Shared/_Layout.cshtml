@@ -18,58 +18,76 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item dropdown position-relative">
-                            <a class="nav-link text-dark dropdown-toggle" href="#" id="cadastroDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Cadastro <span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="cadastroDropdown">
-                                <li><a class="dropdown-item" asp-controller="Cadastro" asp-action="GrupoProdutos">Grupos de Produtos</a></li>
-                                <li><a class="dropdown-item" asp-controller="Cadastro" asp-action="MarcaProdutos">Marcas de Produtos</a></li>
-                                <li><a class="dropdown-item" asp-controller="Cadastro" asp-action="LocaisArmazenamento">Locais de Armazenamento</a></li>
-                                <li><a class="dropdown-item" asp-controller="Cadastro" asp-action="UnidadesMedida">Unidades de Medida</a></li>
-                                <li><a class="dropdown-item" asp-controller="Cadastro" asp-action="Produto">Produtos</a></li>
-                                <li><a class="dropdown-item" asp-controller="Cadastro" asp-action="Pais">Países</a></li>
-                                <li><a class="dropdown-item" asp-controller="Cadastro" asp-action="Estado">Estados</a></li>
-                                <li><a class="dropdown-item" asp-controller="Cadastro" asp-action="Cidade">Cidades</a></li>
-                                <li><a class="dropdown-item" asp-controller="Cadastro" asp-action="Fornecedores">Fornecedores</a></li>
-                                <li><a class="dropdown-item" asp-controller="Cadastro" asp-action="PerfilUsuarios">Perfis de Usuários</a></li>
-                                <li><a class="dropdown-item" asp-controller="Cadastro" asp-action="Usuario">Usuários</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item dropdown position-relative">
-                            <a class="nav-link text-dark dropdown-toggle" href="#" id="operacoesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Operações <span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="cadastroDropdown">
-                                <li><a class="dropdown-item" asp-controller="Operacoes" asp-action="EntradaEstoque">Entrada de Produtos</a></li>
-                                <li><a class="dropdown-item" asp-controller="Operacoes" asp-action="SaidaEstoque">Saída de Produtos</a></li>
-                                <li><a class="dropdown-item" asp-controller="Operacoes" asp-action="LancPerdaProduto">Lançamento de perdas de produtos</a></li>
-                                <li><a class="dropdown-item" asp-controller="Operacoes" asp-action="Inventario">Inventario de Estoque</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item dropdown position-relative">
-                            <a class="nav-link text-dark dropdown-toggle" href="#" id="relatoriosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Relatórios <span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="cadastroDropdown">
-                                <li><a class="dropdown-item" asp-controller="Relatorios" asp-action="PosicaoEstoque">Posição do Estoque</a></li>
-                                <li><a class="dropdown-item" asp-controller="Relatorios" asp-action="Ressuprimento">Ressuprimento</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item dropdown position-relative">
-                            <a class="nav-link text-dark dropdown-toggle" href="#" id="graficosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Gráficos <span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="cadastroDropdown">
-                                <li><a class="dropdown-item" asp-controller="Grafico" asp-action="PerdasMes">Perdas do mês</a></li>
-                                <li><a class="dropdown-item" asp-controller="Grafico" asp-action="EntradaSaidaMes">Entradas vs saídas por mês</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item ms-auto">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Sobre">Sobre</a>
-                        </li>
-                    </ul>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item dropdown position-relative">
+                                <a class="nav-link text-dark dropdown-toggle" href="#" id="cadastroDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Cadastro <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="cadastroDropdown">
+                                    <li><a class="dropdown-item" asp-controller="Cadastro" asp-action="GrupoProdutos">Grupos de Produtos</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Cadastro" asp-action="MarcaProdutos">Marcas de Produtos</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Cadastro" asp-action="LocaisArmazenamento">Locais de Armazenamento</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Cadastro" asp-action="UnidadesMedida">Unidades de Medida</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Cadastro" asp-action="Produto">Produtos</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Cadastro" asp-action="Pais">Países</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Cadastro" asp-action="Estado">Estados</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Cadastro" asp-action="Cidade">Cidades</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Cadastro" asp-action="Fornecedores">Fornecedores</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Cadastro" asp-action="PerfilUsuarios">Perfis de Usuários</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Cadastro" asp-action="Usuario">Usuários</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown position-relative">
+                                <a class="nav-link text-dark dropdown-toggle" href="#" id="operacoesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Operações <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="cadastroDropdown">
+                                    <li><a class="dropdown-item" asp-controller="Operacoes" asp-action="EntradaEstoque">Entrada de Produtos</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Operacoes" asp-action="SaidaEstoque">Saída de Produtos</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Operacoes" asp-action="LancPerdaProduto">Lançamento de perdas de produtos</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Operacoes" asp-action="Inventario">Inventario de Estoque</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown position-relative">
+                                <a class="nav-link text-dark dropdown-toggle" href="#" id="relatoriosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Relatórios <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="cadastroDropdown">
+                                    <li><a class="dropdown-item" asp-controller="Relatorios" asp-action="PosicaoEstoque">Posição do Estoque</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Relatorios" asp-action="Ressuprimento">Ressuprimento</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown position-relative">
+                                <a class="nav-link text-dark dropdown-toggle" href="#" id="graficosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Gráficos <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="cadastroDropdown">
+                                    <li><a class="dropdown-item" asp-controller="Grafico" asp-action="PerdasMes">Perdas do mês</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Grafico" asp-action="EntradaSaidaMes">Entradas vs saídas por mês</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item align-items-end">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Sobre">Sobre</a> 
+                            </li>
+                            <li class="nav-item d-flex align-items-center ms-auto">
+                                <span class="navbar-text me-2">Olá, @User.Identity.Name</span>
+
+                                @using (Html.BeginForm("Logout", "Conta", FormMethod.Post, new { @class = "form-inline" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-link text-dark" style="text-decoration: none;">Logoff</button>
+                                }
+                            </li>
+                        </ul>
+                    }
+                    else
+                    {
+                        <ul class="nav navbar-nav navbar-right">
+                            <li>@Html.ActionLink("Login", "Login", "Conta")</li>
+                        </ul>
+                    }
                 </div>
             </div>
         </nav>

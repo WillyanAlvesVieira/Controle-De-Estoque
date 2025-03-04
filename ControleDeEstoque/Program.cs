@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+
 namespace ControleDeEstoque
 {
     public class Program
@@ -6,8 +8,15 @@ namespace ControleDeEstoque
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                              .AddCookie(options =>
+                              {
+                                  options.LoginPath = "/Conta/Login";
+                                  options.AccessDeniedPath = "/Home/AcessoNegado";
+                                  options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+
+                              });
 
             var app = builder.Build();
 
@@ -24,6 +33,7 @@ namespace ControleDeEstoque
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(
