@@ -9,7 +9,7 @@ namespace ControleDeEstoque.Models
 
         [Required(ErrorMessage = "O campo Senha é obrigatório.")]
         [DataType(DataType.Password)]
-        public string Senha { get; set; }
+        public required string Senha { get; set; }
 
         public bool LembrarMe { get; set; }
     }
