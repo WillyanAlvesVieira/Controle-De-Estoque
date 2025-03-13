@@ -49,3 +49,35 @@
         </div>
     </section>
 </div>
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+          
+            document.querySelectorAll(".btn-excluir").forEach(button => {
+                button.addEventListener("click", function () {
+                    let id = this.getAttribute("data-id"); 
+
+                    if (confirm("Tem certeza que deseja excluir este item?")) {
+                        fetch(`/GrupoProduto/Excluir`, {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify({ id: id })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                alert("Item excluído com sucesso!");
+                                location.reload(); 
+                            } else {
+                                alert("Erro ao excluir o item.");
+                            }
+                        })
+                        .catch(error => console.error("Erro:", error));
+                    }
+                });
+            });
+        });
+    </script>
+}
