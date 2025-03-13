@@ -1,0 +1,39 @@
+﻿#btn_incluir {
+    padding: 5px 10px;
+    font-size: 14px;
+}
+
+.btn-sm {
+    padding: 4px 10px;
+    font-size: 14px;
+}
+
+#grid-cadastro {
+    margin-top: 25px;
+    width: 500px;
+    border-collapse: collapse;
+}
+
+    #grid-cadastro th, #grid-cadastro td {
+        padding: 10px;
+        text-align: left;
+        border: 1px solid #ddd;
+    }
+
+    #grid-cadastro th {
+        background-color: #f4f4f4;
+        font-weight: bold;
+    }
+
+    #grid-cadastro tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    #grid-cadastro tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    #grid-cadastro td {
+        max-width: 100%;
+        word-wrap: break-word;
+    }
