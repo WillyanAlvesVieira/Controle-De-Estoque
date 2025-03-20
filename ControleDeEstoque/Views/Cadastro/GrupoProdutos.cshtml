@@ -1,4 +1,4 @@
-﻿@model List<ControleDeEstoque.Models.GrupoProdutoViewModel>
+﻿@model List<ControleDeEstoque.Domain.Entities.GrupoProduto>
 @{
     ViewBag.Title = "Cadastro de Grupo de Produtos";
     <link href="@Url.Content("~/css/grupoProdutos.css")" rel="stylesheet" type="text/css" />
@@ -52,30 +52,179 @@
 @section Scripts {
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-          
+            let modalHtml = `
+                <div class="modal fade" id="modalExcluir" tabindex="-1" aria-labelledby="modalExcluirLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="modalExcluirLabel">Confirmação de Exclusão</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Tem certeza que deseja excluir este item?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="button" class="btn btn-danger" id="btnConfirmarExclusao">Excluir</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
+
+            document.body.insertAdjacentHTML("beforeend", modalHtml);
+            let modalExcluir = new bootstrap.Modal(document.getElementById("modalExcluir"));
+            let idParaExcluir = null;
+
             document.querySelectorAll(".btn-excluir").forEach(button => {
                 button.addEventListener("click", function () {
-                    let id = this.getAttribute("data-id"); 
+                    idParaExcluir = this.getAttribute("data-id");
+                    modalExcluir.show();
+                });
+            });
 
-                    if (confirm("Tem certeza que deseja excluir este item?")) {
-                        fetch(`/GrupoProduto/Excluir`, {
+            document.getElementById("btnConfirmarExclusao").addEventListener("click", function () {
+                if (idParaExcluir) {
+                    fetch(`/GrupoProduto/Excluir`, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ id: idParaExcluir })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert("Item excluído com sucesso!");
+                            location.reload();
+                        } else {
+                            alert("Erro ao excluir o item.");
+                        }
+                    })
+                    .catch(error => console.error("Erro:", error))
+                    .finally(() => {
+                        modalExcluir.hide();
+                    });
+                }
+            });
+
+            document.getElementById("btn_incluir").addEventListener("click", function () {
+                let modalHtml = `
+                    <div class="modal fade" id="modalCadastro" tabindex="-1" aria-labelledby="modalCadastroLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="modalCadastroLabel">Cadastro de Grupo de Produto</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="formCadastro">
+                                        <div class="mb-3">
+                                            <label for="nome" class="form-label">Nome</label>
+                                            <input type="text" class="form-control" id="nome" required>
+                                        </div>
+                                        <div class="mb-3 form-check">
+                                            <input type="checkbox" class="form-check-input" id="ativo">
+                                            <label class="form-check-label" for="ativo">Ativo</label>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                                    <button type="submit" class="btn btn-primary" id="btnSalvar">Salvar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
+
+                document.body.insertAdjacentHTML("beforeend", modalHtml);
+                let modal = new bootstrap.Modal(document.getElementById("modalCadastro"));
+                modal.show();
+
+                document.getElementById("btnSalvar").addEventListener("click", function () {
+                    let nome = document.getElementById("nome").value;
+                    let ativo = document.getElementById("ativo").checked;
+
+                    fetch(`/GrupoProduto/Incluir`, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ nome: nome, ativo: ativo })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert("Grupo de Produto cadastrado com sucesso!");
+                            location.reload();
+                        } else {
+                            alert("Erro ao cadastrar.");
+                        }
+                    })
+                    .catch(error => console.error("Erro:", error));
+                });
+            });
+
+            document.querySelectorAll(".btn-alterar").forEach(button => {
+                button.addEventListener("click", function () {
+                    let row = this.closest("tr");
+                    let id = this.getAttribute("data-id");
+                    let nome = row.cells[0].innerText;
+                    let ativo = row.cells[1].innerText.trim().toLowerCase() === "sim";
+
+                    let modalHtml = `
+                        <div class="modal fade" id="modalAlterar" tabindex="-1" aria-labelledby="modalAlterarLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="modalAlterarLabel">Alterar Grupo de Produto</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form id="formAlterar">
+                                            <input type="hidden" id="alterarId">
+                                            <div class="mb-3">
+                                                <label for="alterarNome" class="form-label">Nome</label>
+                                                <input type="text" class="form-control" id="alterarNome" required>
+                                            </div>
+                                            <div class="mb-3 form-check">
+                                                <input type="checkbox" class="form-check-input" id="alterarAtivo">
+                                                <label class="form-check-label" for="alterarAtivo">Ativo</label>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                                        <button type="submit" class="btn btn-primary" id="btnAlterarSalvar">Salvar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>`;
+
+                    document.body.insertAdjacentHTML("beforeend", modalHtml);
+                    let modal = new bootstrap.Modal(document.getElementById("modalAlterar"));
+                    document.getElementById("alterarId").value = id;
+                    document.getElementById("alterarNome").value = nome;
+                    document.getElementById("alterarAtivo").checked = ativo;
+
+                    modal.show();
+
+                    document.getElementById("btnAlterarSalvar").addEventListener("click", function () {
+                        let id = document.getElementById("alterarId").value;
+                        let novoNome = document.getElementById("alterarNome").value;
+                        let novoAtivo = document.getElementById("alterarAtivo").checked;
+
+                        fetch(`/GrupoProduto/Alterar`, {
                             method: "POST",
-                            headers: {
-                                "Content-Type": "application/json"
-                            },
-                            body: JSON.stringify({ id: id })
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({ id: id, nome: novoNome, ativo: novoAtivo })
                         })
                         .then(response => response.json())
                         .then(data => {
                             if (data.success) {
-                                alert("Item excluído com sucesso!");
-                                location.reload(); 
+                                alert("Grupo de Produto alterado com sucesso!");
+                                location.reload();
                             } else {
-                                alert("Erro ao excluir o item.");
+                                alert("Erro ao alterar.");
                             }
                         })
                         .catch(error => console.error("Erro:", error));
-                    }
+                    });
                 });
             });
         });
